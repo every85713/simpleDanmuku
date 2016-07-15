@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>Text Animation</title>
+    <style>
+        canvas{border: 0px solid #bbb;}
+        .subdiv{width: 1px;}
+        .text{margin: auto; width: 290px;}
+    </style>
+ 
+    <script type="text/javascript">
+    //idea: 8 Lines, translate it every setTimeOut. 
+    //Every time there's new content, if one line's starting point < ???, then put new content to it.
+    //All depends on when contents get into it... Content's Long, Then Speed is FAST.
+        var can, delay = 20;
+        var ctx = [];
+        var step = [], steps = [];
+ 
+        function init() {
+            can = document.getElementById("MyCanvas1");
+            for(i=0;i<10;i++){
+                ctx[i] = can.getContext("2d");
+                ctx[i].fillStyle = "black";
+                ctx[i].font = "20pt Verdana";
+                ctx[i].textAlign = "left";
+                ctx[i].textBaseline = "middle";
+                ctx[i].translate(25, 60);
+                step[i] = 0;
+                steps[i] = can.width + 50;
+                RunTextLeftToRight(i);
+
+            }
+        }
+
+        //use for & ctx[1]?
+        function RunTextLeftToRight(arr) {
+            step[arr] = step[arr] + 2;//speed
+            ctx[arr].clearRect(0, 0, can.width, can.height);
+            ctx[arr].save();
+            ctx[arr].translate(step[arr], 25); //move the starting point of drawing canvas width and height of text can.height
+            ctx[arr].fillText("Welcome", 1, 0);// 1 distance of left 0 distance of top where it start
+            ctx[arr].restore();
+            //if (step == steps)
+                //step = 0;
+            if (step[arr] < steps[arr])
+                var t = setTimeout('RunTextLeftToRight('+ toString(arr) +')', delay);
+        }
+    </script>
+ 
+</head>
+<body onload="init();">
+    <div class="subdiv">
+        <canvas id="MyCanvas1" width="300" height="500">
+  This browser or document mode doesn't support canvas object</canvas>
+        <p class="text">
+            Example 1 - Marquee Text left to right - scrolling text
+        </p>
+    </div>
+</body>
+</html>
